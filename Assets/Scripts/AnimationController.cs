@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Animator animator;
+    private void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
-
-    // Update is called once per frame
-    void Update()
+    public void PlayAnimation(float horizontal, float vertical)
     {
-        
+        animator.SetFloat("velocity_x", horizontal);
+        animator.SetFloat("velocity_y", vertical);
     }
 }
