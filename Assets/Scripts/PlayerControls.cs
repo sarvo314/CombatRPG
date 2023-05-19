@@ -9,7 +9,7 @@ public class PlayerControls : MonoBehaviour
     Vector2 moveDirection = Vector2.zero;
     Rigidbody rb;
     float moveSpeed;
-    [Header("Max speed reacheable by moving")]
+    [Header("Max speed reacheable by moving, should be greater than 2")]
     public float maxSpeed;
     public float acceleration;
 
@@ -44,20 +44,23 @@ public class PlayerControls : MonoBehaviour
     {
         if (moveDirection.magnitude > 0)
         {
-            if (moveSpeed < maxSpeed)
-                moveSpeed += Time.fixedDeltaTime * acceleration;
+            if (moveSpeed < maxSpeed && Input.GetKey(KeyCode.LeftShift))
+                Acceleration(1);
             MovePlayer();
-
-
+            Debug.Log("Player is moving");
         }
         //deaccelarate
         else
         {
+            Debug.Log("Player deaccelarates");
 
-            if (moveSpeed >= 0)
-                moveSpeed -= acceleration * Time.fixedDeltaTime;
-            else if (moveSpeed < 0) moveSpeed = 0;
-
+            if (moveSpeed > 0)
+                Acceleration(-1);
+            else if (moveSpeed < 0)
+            {
+                //moveSpeed = 0;
+                return;
+            }
             MovePlayer();
 
 
@@ -65,8 +68,15 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    private void Acceleration(int direction)
+    {
+        moveSpeed += direction * Time.fixedDeltaTime * acceleration;
+    }
+
     private void MovePlayer()
     {
+        //if(moveDirection.magnitude > 0)
+
         rb.MovePosition(transform.position + new Vector3(moveDirection.x * moveSpeed * Time.fixedDeltaTime,
                         0,
                         moveDirection.y * moveSpeed * Time.fixedDeltaTime));
