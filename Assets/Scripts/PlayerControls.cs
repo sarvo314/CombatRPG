@@ -28,7 +28,7 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        moveSpeed = 0f;
+        moveSpeed = 1f;
         animationController = GetComponent<AnimationController>();
     }
 
@@ -38,18 +38,27 @@ public class PlayerControls : MonoBehaviour
         moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         velocityX = moveDirection.x;
         velocityZ = moveDirection.y;
-
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            moveSpeed = 0.4f;
+            Debug.Log("PResssed 2 now moving forward");
+        }
     }
     private void FixedUpdate()
     {
+
         if (moveDirection.magnitude > 0)
         {
-            if (moveSpeed < maxSpeed && Input.GetKey(KeyCode.LeftShift))
-                Acceleration(1);
             MovePlayer();
-            Debug.Log("Player is moving");
+            if (moveSpeed < maxSpeed && Input.GetKey(KeyCode.LeftShift))
+            {
+                Acceleration(1);
+                Debug.Log("Player is moving");
+            }
+
         }
         //deaccelarate
+        //if (Input.GetKeyUp(KeyCode.W))
         else
         {
             Debug.Log("Player deaccelarates");
@@ -58,7 +67,7 @@ public class PlayerControls : MonoBehaviour
                 Acceleration(-1);
             else if (moveSpeed < 0)
             {
-                //moveSpeed = 0;
+                moveSpeed = 0;
                 return;
             }
             MovePlayer();
