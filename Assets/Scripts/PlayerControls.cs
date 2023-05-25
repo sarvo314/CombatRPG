@@ -19,6 +19,10 @@ public class PlayerControls : MonoBehaviour
     public static event Action OnPressUp;
     public static event Action OnPressDown;
 
+    public static event Action OnCastSpell;
+
+
+
     AnimationController animationController;
 
     float velocityX;
@@ -42,6 +46,11 @@ public class PlayerControls : MonoBehaviour
         {
             moveSpeed = 0.4f;
             Debug.Log("PResssed 2 now moving forward");
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            OnCastSpell?.Invoke();
+            //Debug.Log("Casted spell");
         }
     }
     private void FixedUpdate()
